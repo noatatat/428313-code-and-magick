@@ -18,8 +18,8 @@ window.renderStatistics = function (ctx, names, times) {
   var topIndent = lineHeight * 5;
   var xIndent = (statisticsBarWidth - (barWidth * names.length + barIndent * (names.length - 1))) / 2;
 
-  var drawStatisticsBar = function (a, b, fillcolor) {
-    ctx.fillStyle = fillcolor;
+  var drawStatisticsBar = function (a, b, fillColor) {
+    ctx.fillStyle = fillColor;
     ctx.strokeRect(initialX + a, initialY + b, statisticsBarWidth, statisticsBarHeight);
     ctx.fillRect(initialX + a, initialY + b, statisticsBarWidth, statisticsBarHeight);
   };
@@ -50,18 +50,22 @@ window.renderStatistics = function (ctx, names, times) {
 
   var step = barHeight / times[times.length - 1];
 
+  var getRandomNumber = function(min, max) {
+    return (min + (max - min) * Math.random());
+  }
+
   for (var k = 0; k <= names.length - 1; k++) {
-    var randomOpacity = minOpacity + 0.8 * Math.random();
-    ctx.fillStyle = (names[k] === 'Вы') ? 'rgba(255, 0, 0, 1.0)' : 'rgba(0, 0, 255, ' + randomOpacity.toFixed(2) + ')';
-    ctx.fillRect(initialX + xIndent + k * (barWidth + barIndent), initialY + topIndent + barHeight - step * times[k], barWidth, step * times[k]);
+    var x = initialX + xIndent + k * (barWidth + barIndent);
+    var y = initialY + topIndent + barHeight;
+    ctx.fillStyle = (names[k] === 'Вы') ? 'rgba(255, 0, 0, 1.0)' : 'rgba(0, 0, 255, ' + getRandomNumber(0.2, 1.0).toFixed(2) + ')';
+    ctx.fillRect(x, y - step * times[k], barWidth, step * times[k]);
     ctx.textAlign = 'center';
     ctx.font = '18px PT Mono';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(k + 1, initialX + xIndent + k * (barWidth + barIndent) + barWidth / 2, initialY + topIndent + barHeight - lineHeight);
-
+    ctx.fillText(k + 1, x + barWidth / 2, y - lineHeight);
     ctx.font = '14px PT Mono';
     ctx.fillStyle = '#000000';
-    ctx.fillText(names[k], initialX + xIndent + k * (barWidth + barIndent) + barWidth / 2, initialY + topIndent + barHeight + lineHeight);
-    ctx.fillText(times[k].toFixed(), initialX + xIndent + k * (barWidth + barIndent) + barWidth / 2, initialY + topIndent + barHeight + 2 * lineHeight);
+    ctx.fillText(names[k], x + barWidth / 2, y + lineHeight);
+    ctx.fillText(times[k].toFixed() + 'ms', x + barWidth / 2, y + 2 * lineHeight);
   }
 };
