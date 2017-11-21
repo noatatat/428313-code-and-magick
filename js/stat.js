@@ -13,7 +13,6 @@ window.renderStatistics = function (ctx, names, times) {
   var initialX = 100;
   var initialY = 10;
   var lineHeight = 15;
-  var minOpacity = 0.2;
 
   var topIndent = lineHeight * 5;
   var xIndent = (statisticsBarWidth - (barWidth * names.length + barIndent * (names.length - 1))) / 2;
@@ -50,9 +49,9 @@ window.renderStatistics = function (ctx, names, times) {
 
   var step = barHeight / times[times.length - 1];
 
-  var getRandomNumber = function(min, max) {
+  var getRandomNumber = function (min, max) {
     return (min + (max - min) * Math.random());
-  }
+  };
 
   for (var k = 0; k <= names.length - 1; k++) {
     var x = initialX + xIndent + k * (barWidth + barIndent);
