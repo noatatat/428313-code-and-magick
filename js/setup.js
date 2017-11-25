@@ -5,9 +5,6 @@ var secondNames = ['да Марья', 'Верон', 'Мирабелла', 'Ва�
 var coatColors = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var eyesColors = ['black', 'red', 'blue', 'yellow', 'green'];
 
-var setup = document.querySelector('.setup');
-setup.classList.remove('hidden');
-
 var randomInteger = function (min, max) {
   if (!max) {
     max = min;
@@ -20,12 +17,36 @@ var randomInteger = function (min, max) {
 
 var wizards = [];
 
-for (var i = 0; i <= 3; i++) {
-  wizards[i] = {
-    name: firstNames[randomInteger(7)] + ' ' + secondNames[randomInteger(7)],
-    coatColor: coatColors[randomInteger(5)],
-    eyesColor: eyesColors[randomInteger(4)]
+var setup = document.querySelector('.setup');
+setup.classList.remove('hidden');
+
+var similarWizardTemlate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+var similarList = document.querySelector('.setup-similar-list');
+
+var renderWizard = function (wizard) {
+  var similarWizard = similarWizardTemlate.cloneNode(true);
+  similarWizard.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+  similarWizard.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+  similarWizard.querySelector('.setup-similar-label').textContent = wizard.name;
+  return similarWizard;
+};
+
+var wizardPassportElement = {};
+
+var wizardPassport = function () {
+  wizardPassportElement = {
+    name: firstNames[randomInteger(firstNames.length - 1)] + ' ' + secondNames[secondNames.length - 1],
+    coatColor: coatColors[randomInteger(coatColors.length - 1)],
+    eyesColor: eyesColors[randomInteger(eyesColors.length - 1)]
   };
+  return wizardPassportElement;
+};
+
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < 4; i++) {
+  wizards[i] = wizardPassport();
+  fragment.appendChild(renderWizard(wizards[i]));
 }
 
-console.log(wizards);
+similarList.appendChild(fragment);
+document.querySelector('.setup-similar').classList.remove('hidden');
