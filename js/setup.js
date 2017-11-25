@@ -6,7 +6,7 @@ var secondNames = ['да Марья', 'Верон', 'Мирабелла', 'Ва�
 var coatColors = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var eyesColors = ['black', 'red', 'blue', 'yellow', 'green'];
 
-var randomInteger = function (min, max) {
+var getRandomInteger = function (min, max) {
   if (!max) {
     max = min;
     min = 0;
@@ -34,9 +34,9 @@ var renderWizard = function (wizard) {
 
 var createWizardPassport = function () {
   var wizardPassportElement = {
-    name: firstNames[randomInteger(firstNames.length - 1)] + ' ' + secondNames[secondNames.length - 1],
-    coatColor: coatColors[randomInteger(coatColors.length - 1)],
-    eyesColor: eyesColors[randomInteger(eyesColors.length - 1)]
+    name: firstNames[getRandomInteger(firstNames.length - 1)] + ' ' + secondNames[secondNames.length - 1],
+    coatColor: coatColors[getRandomInteger(coatColors.length - 1)],
+    eyesColor: eyesColors[getRandomInteger(eyesColors.length - 1)]
   };
   return wizardPassportElement;
 };
