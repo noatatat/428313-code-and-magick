@@ -32,7 +32,7 @@ var renderWizard = function (wizard) {
   return similarWizard;
 };
 
-var wizardPassport = function () {
+var createWizardPassport = function () {
   var wizardPassportElement = {
     name: firstNames[randomInteger(firstNames.length - 1)] + ' ' + secondNames[secondNames.length - 1],
     coatColor: coatColors[randomInteger(coatColors.length - 1)],
@@ -43,7 +43,7 @@ var wizardPassport = function () {
 
 var fragment = document.createDocumentFragment();
 for (var i = 0; i < wizardsNumber; i++) {
-  wizards[i] = wizardPassport();
+  wizards[i] = createWizardPassport();
   fragment.appendChild(renderWizard(wizards[i]));
 }
 
