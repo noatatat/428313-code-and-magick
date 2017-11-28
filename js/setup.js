@@ -23,11 +23,11 @@ function getRandomInteger(min, max) {
 }
 
 function getRandomElement(elements) {
-  return elements[getRandomInteger(0, elements.length - 1)];
+  return elements[getRandomInteger(elements.length)];
 }
 
 function getRandomElementExept(elements, exept) {
-  var element = elements[getRandomInteger(0, elements.length - 1)];
+  var element = elements[getRandomInteger(elements.length)];
   if (element !== exept) {
     return element;
   } else {
