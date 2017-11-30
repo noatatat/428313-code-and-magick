@@ -1,6 +1,7 @@
 'use strict';
 
-window.renderStatistics = function (ctx, names, times) {
+window.renderStatistics = renderStatistics;
+function renderStatistics(ctx, names, times) {
   var statisticsBarWidth = 420;
   var statisticsBarHeight = 270;
   var statisticsBarColor = 'rgba(255, 255, 255, 1.0)';
@@ -67,4 +68,4 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText(names[k], x + barWidth / 2, y + lineHeight);
     ctx.fillText(times[k].toFixed() + 'ms', x + barWidth / 2, y + 2 * lineHeight);
   }
-};
+}
