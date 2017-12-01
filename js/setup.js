@@ -60,7 +60,7 @@ function onPopupCloseOnEnter(evt) {
   }
 }
 
-function onButtonRemoveListeners () {
+function onButtonRemoveListeners() {
   setupClose.removeEventListener('click', onPopupClose);
   setupClose.removeEventListener('keydown', onPopupCloseOnEnter);
 }
