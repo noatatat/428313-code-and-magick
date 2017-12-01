@@ -17,7 +17,7 @@ var wizards = [];
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
-//var setupSave = setup.querySelector('.setup-submit');
+var setupSave = setup.querySelector('.setup-submit');
 var userNameInput = setup.querySelector('.setup-user-name');
 var wizardCoat = setup.querySelector('.setup-wizard .wizard-coat');
 var wizardEyes = setup.querySelector('.setup-wizard .wizard-eyes');
@@ -33,7 +33,7 @@ function hide(element) {
 }
 
 function onPopupEscPress(evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if ((evt.keyCode === ESC_KEYCODE) && (userNameInput !== document.activeElement)) {
     onPopupClose();
   }
 }
@@ -60,17 +60,19 @@ function onPopupCloseOnEnter(evt) {
   }
 }
 
-userNameInput.addEventListener('focus', function () {});
-userNameInput.addEventListener('blur', function () {});
+function onButtonRemoveListeners () {
+  setupClose.removeEventListener('click', onPopupClose);
+  setupClose.removeEventListener('keydown', onPopupCloseOnEnter);
+}
 
 setupOpen.addEventListener('click', onPopupOpen);
 setupOpen.addEventListener('keydown', onPopupOpenOnEnter);
 setupClose.addEventListener('click', onPopupClose);
 setupClose.addEventListener('keydown', onPopupCloseOnEnter);
-//setupSave.addEventListener('click', onPopupClose);
-//setupSave.addEventListener('keydown', onPopupCloseOnEnter);
+setupSave.addEventListener('click', onButtonRemoveListeners);
+setupSave.addEventListener('keydown', onButtonRemoveListeners);
 
-userNameInput.addEventListener('validity', function (evt) {
+userNameInput.addEventListener('validity', function () {
   if (userNameInput.validity.tooShort) {
     userNameInput.setCustomValidity('В имени должно быть не менее 2 символов');
   } else if (userNameInput.validity.tooLong) {
