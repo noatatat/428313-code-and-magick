@@ -112,62 +112,68 @@ wizardFireBall.addEventListener('click', function () {
   wizardFireBall.style.backgroundColor = getRandomElement(fireBallColor);
 });
 
-function getRandom(min, max) {
-  if (!max) {
-    max = min;
-    min = 0;
+(function () {
+  window.randomUtils = {
+    getRandom: function (min, max) {
+      if (!max) {
+        max = min;
+        min = 0;
+      }
+      return min + Math.random() * (max - min);
+    },
+
+    getRandomInteger: function (min, max) {
+      return Math.floor(window.randomUtils.getRandom(min, max));
+    },
+
+    getRandomElement: function (elements) {
+      return elements[window.randomUtils.getRandomInteger(elements.length)];
+    },
+
+    getRandomElementExept: function (elements, exept) {
+      var element = elements[window.randomUtils.getRandomInteger(elements.length)];
+      if (element !== exept) {
+        return element;
+      } else {
+        return window.randomUtils.getRandomElementExept(elements, exept);
+      }
+    }
+  };
+})();
+
+(function () {
+  var similarWizardTemlate = document.querySelector('#similar-wizard-template');
+  var similarWizardItem = similarWizardTemlate.content.querySelector('.setup-similar-item');
+  var similarList = document.querySelector('.setup-similar-list');
+
+  function Wizard(fullName, coatColor, eyesColor) {
+    this.name = fullName;
+    this.coatColor = coatColor;
+    this.eyesColor = eyesColor;
   }
-  return min + Math.random() * (max - min);
-}
 
-function getRandomInteger(min, max) {
-  return Math.floor(getRandom(min, max));
-}
-
-function getRandomElement(elements) {
-  return elements[getRandomInteger(elements.length)];
-}
-
-function getRandomElementExept(elements, exept) {
-  var element = elements[getRandomInteger(elements.length)];
-  if (element !== exept) {
-    return element;
-  } else {
-    return getRandomElementExept(elements, exept);
+  function generateRandomWizard() {
+    var fullName = window.randomUtils.getRandomElementExept(firstNames, 'Иван') + ' '
+      + window.randomUtils.getRandomElement(secondNames);
+    var coatColor = window.randomUtils.getRandomElement(coatColors);
+    var eyesColor = window.randomUtils.getRandomElement(eyesColors);
+    return new Wizard(fullName, coatColor, eyesColor);
   }
-}
 
-var similarWizardTemlate = document.querySelector('#similar-wizard-template');
-var similarWizardItem = similarWizardTemlate.content.querySelector('.setup-similar-item');
-var similarList = document.querySelector('.setup-similar-list');
+  function renderWizard(wizard) {
+    var similarWizard = similarWizardItem.cloneNode(true);
+    similarWizard.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+    similarWizard.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    similarWizard.querySelector('.setup-similar-label').textContent = wizard.name;
+    return similarWizard;
+  }
 
-function Wizard(fullName, coatColor, eyesColor) {
-  this.name = fullName;
-  this.coatColor = coatColor;
-  this.eyesColor = eyesColor;
-}
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < wizardsNumber; i++) {
+    wizards[i] = generateRandomWizard();
+    fragment.appendChild(renderWizard(wizards[i]));
+  }
 
-function generateRandomWizard() {
-  var fullName = getRandomElementExept(firstNames, 'Иван') + ' '
-    + getRandomElement(secondNames);
-  var coatColor = getRandomElement(coatColors);
-  var eyesColor = getRandomElement(eyesColors);
-  return new Wizard(fullName, coatColor, eyesColor);
-}
-
-function renderWizard(wizard) {
-  var similarWizard = similarWizardItem.cloneNode(true);
-  similarWizard.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-  similarWizard.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
-  similarWizard.querySelector('.setup-similar-label').textContent = wizard.name;
-  return similarWizard;
-}
-
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < wizardsNumber; i++) {
-  wizards[i] = generateRandomWizard();
-  fragment.appendChild(renderWizard(wizards[i]));
-}
-
-similarList.appendChild(fragment);
-window.hidden.show(document.querySelector('.setup-similar'));
+  similarList.appendChild(fragment);
+  window.hidden.show(document.querySelector('.setup-similar'));
+})();
