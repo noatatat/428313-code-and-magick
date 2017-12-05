@@ -64,10 +64,10 @@
   var wizardFireBall = window.setup.querySelector('.setup-fireball-wrap');
 
   function changeFillColor(element, colors) {
-    element.style.fill = window.randomUtils.getRandomElement(colors);
+    element.style.fill = window.random.getrandomElement(colors);
   }
   function changeBackgroundColor(element, colors) {
-    element.style.backgroundColor = window.randomUtils.getRandomElement(colors);
+    element.style.backgroundColor = window.random.getrandomElement(colors);
   }
 
   wizardCoat.addEventListener('click', function () {
@@ -84,8 +84,8 @@
 })();
 
 (function () {
-  window.randomUtils = {
-    getRandom: function (min, max) {
+  window.random = {
+    getrandom: function (min, max) {
       if (!max) {
         max = min;
         min = 0;
@@ -93,20 +93,20 @@
       return min + Math.random() * (max - min);
     },
 
-    getRandomInteger: function (min, max) {
-      return Math.floor(window.randomUtils.getRandom(min, max));
+    getrandomInteger: function (min, max) {
+      return Math.floor(window.random.getrandom(min, max));
     },
 
-    getRandomElement: function (elements) {
-      return elements[window.randomUtils.getRandomInteger(elements.length)];
+    getrandomElement: function (elements) {
+      return elements[window.random.getrandomInteger(elements.length)];
     },
 
-    getRandomElementExept: function (elements, exept) {
-      var element = elements[window.randomUtils.getRandomInteger(elements.length)];
+    getrandomElementExept: function (elements, exept) {
+      var element = elements[window.random.getrandomInteger(elements.length)];
       if (element !== exept) {
         return element;
       } else {
-        return window.randomUtils.getRandomElementExept(elements, exept);
+        return window.random.getrandomElementExept(elements, exept);
       }
     }
   };
@@ -124,11 +124,11 @@
     this.eyesColor = eyesColor;
   }
 
-  function generateRandomWizard() {
-    var fullName = window.randomUtils.getRandomElementExept(window.FIRST_NAMES, 'Иван') + ' '
-      + window.randomUtils.getRandomElement(window.SECOND_NAMES);
-    var coatColor = window.randomUtils.getRandomElement(window.COAT_COLORS);
-    var eyesColor = window.randomUtils.getRandomElement(window.EYES_COLORS);
+  function generaterandomWizard() {
+    var fullName = window.random.getrandomElementExept(window.FIRST_NAMES, 'Иван') + ' '
+      + window.random.getrandomElement(window.SECOND_NAMES);
+    var coatColor = window.random.getrandomElement(window.COAT_COLORS);
+    var eyesColor = window.random.getrandomElement(window.EYES_COLORS);
     return new Wizard(fullName, coatColor, eyesColor);
   }
 
@@ -142,7 +142,7 @@
 
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < window.WIZARD_NUMBER; i++) {
-    wizards[i] = generateRandomWizard();
+    wizards[i] = generaterandomWizard();
     fragment.appendChild(renderWizard(wizards[i]));
   }
 
