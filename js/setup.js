@@ -97,7 +97,7 @@ userNameInput.addEventListener('input', function (evt) {
 });
 
 function changeFillColor(element, colors) {
-  element.style.fill = getRandomElement(colors);
+  element.style.fill = window.randomUtils.getRandomElement(colors);
 }
 
 wizardCoat.addEventListener('click', function () {
@@ -109,7 +109,7 @@ wizardEyes.addEventListener('click', function () {
 });
 
 wizardFireBall.addEventListener('click', function () {
-  wizardFireBall.style.backgroundColor = getRandomElement(FIRE_BALLS_COLORS);
+  wizardFireBall.style.backgroundColor = window.randomUtils.getRandomElement(FIRE_BALLS_COLORS);
 });
 
 (function () {
