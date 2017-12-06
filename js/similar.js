@@ -13,10 +13,10 @@
   }
 
   function generaterandomWizard() {
-    var fullName = window.random.getrandomElementExept(window.FIRST_NAMES, 'Иван') + ' '
-      + window.random.getrandomElement(window.SECOND_NAMES);
-    var coatColor = window.random.getrandomElement(window.COAT_COLORS);
-    var eyesColor = window.random.getrandomElement(window.EYES_COLORS);
+    var fullName = window.utils.getRandomElementExept(window.FIRST_NAMES, 'Иван') + ' '
+      + window.utils.getRandomElement(window.SECOND_NAMES);
+    var coatColor = window.utils.getRandomElement(window.COAT_COLORS);
+    var eyesColor = window.utils.getRandomElement(window.EYES_COLORS);
     return new Wizard(fullName, coatColor, eyesColor);
   }
 
@@ -35,5 +35,5 @@
   }
 
   similarList.appendChild(fragment);
-  window.hidden.show(document.querySelector('.setup-similar'));
+  window.utils.show(document.querySelector('.setup-similar'));
 })();

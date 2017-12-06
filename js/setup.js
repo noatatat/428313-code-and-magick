@@ -7,40 +7,31 @@
   var setupClose = window.setup.querySelector('.setup-close');
   var setupSave = window.setup.querySelector('.setup-submit');
 
-  window.hidden = {
-    show: function (element) {
-      element.classList.remove('hidden');
-    },
-
-    hide: function (element) {
-      element.classList.add('hidden');
-    }
-  };
-
   function onPopupEscPress(evt) {
-    if ((evt.keyCode === window.ESC_KEYCODE) && (window.userNameInput !== document.activeElement)) {
+    if ((evt.keyCode === window.KEYCODE.ESCAPE)
+      && (window.userNameInput !== document.activeElement)) {
       onPopupClose();
     }
   }
 
   function onPopupOpen() {
-    window.hidden.show(window.setup);
+    window.utils.show(window.setup);
     document.addEventListener('keydown', onPopupEscPress);
   }
 
   function onPopupOpenOnEnter(evt) {
-    if (evt.keyCode === window.ENTER_KEYCODE) {
+    if (evt.keyCode === window.KEYCODE.ENTER) {
       onPopupOpen();
     }
   }
 
   function onPopupClose() {
-    window.hidden.hide(window.setup);
+    window.utils.hide(window.setup);
     document.removeEventListener('keydown', onPopupEscPress);
   }
 
   function onPopupCloseOnEnter(evt) {
-    if (evt.keyCode === window.ENTER_KEYCODE) {
+    if (evt.keyCode === window.KEYCODE.ENTER) {
       onPopupClose();
     }
   }
