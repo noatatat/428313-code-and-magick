@@ -19,10 +19,10 @@
     },
 
     getRandomElementExept: function (elements, exept) {
-      var element = window.getRandomElement(elements);
+      var element = window.utils.getRandomElement(elements);
       return element !== exept
         ? element
-        : window.random.getRandomElementExept(elements, exept);
+        : window.utils.getRandomElementExept(elements, exept);
     },
 
     show: function (element) {
