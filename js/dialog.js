@@ -35,7 +35,6 @@
     window.utils.show(window.setup);
     setStartCoords();
     document.addEventListener('keydown', onPopupEscPress);
-    setupMove();
   }
 
   function onPopupOpenOnEnter(evt) {
@@ -60,37 +59,36 @@
     setupClose.removeEventListener('keydown', onPopupCloseOnEnter);
   }
 
-  function setupMove() {
-    var setupHandle = window.setup.querySelector('.setup-user-pic');
-    setupHandle.addEventListener('mousedown', onSetupMouseDown);
 
-    function onSetupMouseDown(evt) {
-      evt.preventDefault();
-      var startX = window.setup.offsetLeft;
-      var startY = window.setup.offsetTop;
-      var shift = {
-        x: evt.clientX - startX,
-        y: evt.clientY - startY
-      };
+  var setupHandle = window.setup.querySelector('.setup-user-pic');
+  setupHandle.addEventListener('mousedown', onSetupMouseDown);
 
-      window.onMouseMove = function (moveEvt) {
-        moveEvt.preventDefault();
-        var coords = {
-          x: moveEvt.clientX - shift.x,
-          y: moveEvt.clientY - shift.y
-        };
-        window.setup.style.top = coords.y + 'px';
-        window.setup.style.left = coords.x + 'px';
-      };
+  function onSetupMouseDown(evt) {
+    evt.preventDefault();
+    var startX = window.setup.offsetLeft;
+    var startY = window.setup.offsetTop;
+    var shift = {
+      x: evt.clientX - startX,
+      y: evt.clientY - startY
+    };
 
-      window.onMouseUp = function (upEvt) {
-        upEvt.preventDefault();
-        document.removeEventListener('mousemove', window.onMouseMove);
-        document.removeEventListener('mouseup', window.onMouseUp);
+    window.onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      var coords = {
+        x: moveEvt.clientX - shift.x,
+        y: moveEvt.clientY - shift.y
       };
-      document.addEventListener('mousemove', window.onMouseMove);
-      document.addEventListener('mouseup', window.onMouseUp);
-    }
+      window.setup.style.top = coords.y + 'px';
+      window.setup.style.left = coords.x + 'px';
+    };
+
+    window.onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      document.removeEventListener('mousemove', window.onMouseMove);
+      document.removeEventListener('mouseup', window.onMouseUp);
+    };
+    document.addEventListener('mousemove', window.onMouseMove);
+    document.addEventListener('mouseup', window.onMouseUp);
   }
 
   setupOpen.addEventListener('click', onPopupOpen);
