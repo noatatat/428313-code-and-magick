@@ -1,50 +1,26 @@
 'use strict';
 
 (function () {
-  window.setup = document.querySelector('.setup');
-  window.userNameInput = window.setup.querySelector('.setup-user-name');
-  var setupOpen = document.querySelector('.setup-open');
-  var setupClose = window.setup.querySelector('.setup-close');
-  var setupSave = window.setup.querySelector('.setup-submit');
+  var wizardCoat = window.setup.querySelector('.setup-wizard .wizard-coat');
+  var wizardEyes = window.setup.querySelector('.setup-wizard .wizard-eyes');
+  var wizardFireBall = window.setup.querySelector('.setup-fireball-wrap');
 
-  function onPopupEscPress(evt) {
-    if ((evt.keyCode === window.KEYCODE.ESCAPE)
-      && (window.userNameInput !== document.activeElement)) {
-      onPopupClose();
-    }
+  function changeFillColor(element, colors) {
+    element.style.fill = window.utils.getRandomElement(colors);
+  }
+  function changeBackgroundColor(element, colors) {
+    element.style.backgroundColor = window.utils.getRandomElement(colors);
   }
 
-  function onPopupOpen() {
-    window.utils.show(window.setup);
-    document.addEventListener('keydown', onPopupEscPress);
-  }
+  wizardCoat.addEventListener('click', function () {
+    changeFillColor(wizardCoat, window.COAT_COLORS);
+  });
 
-  function onPopupOpenOnEnter(evt) {
-    if (evt.keyCode === window.KEYCODE.ENTER) {
-      onPopupOpen();
-    }
-  }
+  wizardEyes.addEventListener('click', function () {
+    changeFillColor(wizardEyes, window.EYES_COLORS);
+  });
 
-  function onPopupClose() {
-    window.utils.hide(window.setup);
-    document.removeEventListener('keydown', onPopupEscPress);
-  }
-
-  function onPopupCloseOnEnter(evt) {
-    if (evt.keyCode === window.KEYCODE.ENTER) {
-      onPopupClose();
-    }
-  }
-
-  function onButtonRemoveListeners() {
-    setupClose.removeEventListener('click', onPopupClose);
-    setupClose.removeEventListener('keydown', onPopupCloseOnEnter);
-  }
-
-  setupOpen.addEventListener('click', onPopupOpen);
-  setupOpen.addEventListener('keydown', onPopupOpenOnEnter);
-  setupClose.addEventListener('click', onPopupClose);
-  setupClose.addEventListener('keydown', onPopupCloseOnEnter);
-  setupSave.addEventListener('click', onButtonRemoveListeners);
-  setupSave.addEventListener('keydown', onButtonRemoveListeners);
+  wizardFireBall.addEventListener('click', function () {
+    changeBackgroundColor(wizardFireBall, window.FIRE_BALLS_COLORS);
+  });
 })();
