@@ -40,7 +40,7 @@
   var dragZoneItem = null;
   shopElement.addEventListener('dragstart', function (evt) {
     if (evt.target.tagName.toLowerCase() === 'img') {
-      draggedItem = evt.target;
+      draggedItem = evt.target.cloneNode();
       evt.dataTransfer.setData('text/plain', evt.target.alt);
     }
     var artifactsElementItems = artifactsElement.querySelectorAll('.setup-artifacts-cell');
@@ -59,14 +59,18 @@
     return false;
   });
 
-  document.addEventListener('drop', function (evt) {
-    evt.target.style.backgroundColor = '';
-    evt.target.appendChild(draggedItem);
+  document.addEventListener('dragend', function (evt) {
     evt.preventDefault();
+    setOutline(dragZoneItem, false);
+  });
 
-    if (evt.target === dragZoneItem) {
-      setOutline(dragZoneItem, false);
-    } else {
+  document.addEventListener('drop', function (evt) {
+    evt.preventDefault();
+    if (!evt.target.hasChildNodes()) {
+      evt.target.style.backgroundColor = '';
+      evt.target.appendChild(draggedItem);
+    }
+    if (evt.target !== dragZoneItem) {
       shopElement.innerHTML = shopElementStartModeHTML;
       artifactsElement.innerHTML = artifactsElementStartModeHTML;
       dragZoneItem = null;
@@ -74,7 +78,10 @@
   });
 
   artifactsElement.addEventListener('dragenter', function (evt) {
-    evt.target.style.backgroundColor = 'yellow';
+    if ((!evt.target.hasChildNodes())
+      && (evt.target.tagName.toLowerCase() !== 'img')) {
+      evt.target.style.backgroundColor = 'yellow';
+    }
     evt.preventDefault();
   });
 
