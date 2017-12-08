@@ -67,11 +67,10 @@
 
   function onSetupMouseDown(evt) {
     evt.preventDefault();
-    var startX = window.setup.offsetLeft;
-    var startY = window.setup.offsetTop;
+
     var shift = {
-      x: evt.clientX - startX,
-      y: evt.clientY - startY
+      x: evt.clientX - window.setup.offsetLeft,
+      y: evt.clientY - window.setup.offsetTop
     };
 
     window.onMouseMove = function (moveEvt) {
