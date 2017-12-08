@@ -59,9 +59,11 @@
     setupClose.removeEventListener('keydown', onPopupCloseOnEnter);
   }
 
-
-  var setupHandle = window.setup.querySelector('.setup-user-pic');
+  var setupHandle = window.setup.querySelector('.upload');
   setupHandle.addEventListener('mousedown', onSetupMouseDown);
+  setupHandle.addEventListener('click', function (evt) {
+    evt.preventDefault();
+  });
 
   function onSetupMouseDown(evt) {
     evt.preventDefault();
