@@ -73,7 +73,8 @@
       y: evt.clientY - window.setup.offsetTop
     };
 
-    window.onMouseMove = function (moveEvt) {
+    window.onMouseMove = onMouseMove;
+    function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
       var coords = {
         x: moveEvt.clientX - shift.x,
@@ -81,13 +82,14 @@
       };
       window.setup.style.top = coords.y + 'px';
       window.setup.style.left = coords.x + 'px';
-    };
+    }
 
-    window.onMouseUp = function (upEvt) {
+    window.onMouseUp = onMouseUp;
+    function onMouseUp(upEvt) {
       upEvt.preventDefault();
       document.removeEventListener('mousemove', window.onMouseMove);
       document.removeEventListener('mouseup', window.onMouseUp);
-    };
+    }
     document.addEventListener('mousemove', window.onMouseMove);
     document.addEventListener('mouseup', window.onMouseUp);
   }
