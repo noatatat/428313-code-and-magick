@@ -1,59 +1,92 @@
 'use strict';
 
 (function () {
-  window.setup = document.querySelector('.setup');
-  window.userNameInput = window.setup.querySelector('.setup-user-name');
-  var setupOpen = document.querySelector('.setup-open');
-  var setupClose = window.setup.querySelector('.setup-close');
-  var setupSave = window.setup.querySelector('.setup-submit');
+  var wizardCoat = window.setup.querySelector('.setup-wizard .wizard-coat');
+  var wizardEyes = window.setup.querySelector('.setup-wizard .wizard-eyes');
+  var wizardFireBall = window.setup.querySelector('.setup-fireball-wrap');
 
-  window.hidden = {
-    show: function (element) {
-      element.classList.remove('hidden');
-    },
+  function changeFillColor(element, colors) {
+    element.style.fill = window.utils.getRandomElement(colors);
+  }
+  function changeBackgroundColor(element, colors) {
+    element.style.backgroundColor = window.utils.getRandomElement(colors);
+  }
 
-    hide: function (element) {
-      element.classList.add('hidden');
+  wizardCoat.addEventListener('click', function () {
+    changeFillColor(wizardCoat, window.COAT_COLORS);
+  });
+
+  wizardEyes.addEventListener('click', function () {
+    changeFillColor(wizardEyes, window.EYES_COLORS);
+  });
+
+  wizardFireBall.addEventListener('click', function () {
+    changeBackgroundColor(wizardFireBall, window.FIRE_BALLS_COLORS);
+  });
+
+  var shopElement = document.querySelector('.setup-artifacts-shop');
+  var shopItems = shopElement.querySelectorAll('img');
+  var artifactsElement = document.querySelector('.setup-artifacts');
+  var artifactsElementStartModeHTML = artifactsElement.innerHTML;
+  [].forEach.call(shopItems, function (element) {
+    element.draggable = true;
+  });
+  var shopElementStartModeHTML = shopElement.innerHTML;
+
+  function setOutline(element, flag) {
+    element.style.outline = (flag) ? '2px dashed red' : '';
+  }
+  var draggedItem = null;
+  var dragZoneItem = null;
+  shopElement.addEventListener('dragstart', function (evt) {
+    if (evt.target.tagName.toLowerCase() === 'img') {
+      draggedItem = evt.target.cloneNode();
+      evt.dataTransfer.setData('text/plain', evt.target.alt);
     }
-  };
-
-  function onPopupEscPress(evt) {
-    if ((evt.keyCode === window.ESC_KEYCODE) && (window.userNameInput !== document.activeElement)) {
-      onPopupClose();
+    var artifactsElementItems = artifactsElement.querySelectorAll('.setup-artifacts-cell');
+    function setDragZoneItem() {
+      dragZoneItem = window.utils.getRandomElement(artifactsElementItems);
+      return !dragZoneItem.hasChildNodes()
+        ? dragZoneItem
+        : setDragZoneItem();
     }
-  }
+    setDragZoneItem();
+    setOutline(dragZoneItem, true);
+  });
 
-  function onPopupOpen() {
-    window.hidden.show(window.setup);
-    document.addEventListener('keydown', onPopupEscPress);
-  }
+  artifactsElement.addEventListener('dragover', function (evt) {
+    evt.preventDefault();
+    return false;
+  });
 
-  function onPopupOpenOnEnter(evt) {
-    if (evt.keyCode === window.ENTER_KEYCODE) {
-      onPopupOpen();
+  document.addEventListener('dragend', function (evt) {
+    evt.preventDefault();
+    setOutline(dragZoneItem, false);
+  });
+
+  document.addEventListener('drop', function (evt) {
+    evt.preventDefault();
+    if (!evt.target.hasChildNodes()) {
+      evt.target.style.backgroundColor = '';
+      evt.target.appendChild(draggedItem);
     }
-  }
-
-  function onPopupClose() {
-    window.hidden.hide(window.setup);
-    document.removeEventListener('keydown', onPopupEscPress);
-  }
-
-  function onPopupCloseOnEnter(evt) {
-    if (evt.keyCode === window.ENTER_KEYCODE) {
-      onPopupClose();
+    if (evt.target !== dragZoneItem) {
+      shopElement.innerHTML = shopElementStartModeHTML;
+      artifactsElement.innerHTML = artifactsElementStartModeHTML;
+      dragZoneItem = null;
     }
-  }
+  });
 
-  function onButtonRemoveListeners() {
-    setupClose.removeEventListener('click', onPopupClose);
-    setupClose.removeEventListener('keydown', onPopupCloseOnEnter);
-  }
+  artifactsElement.addEventListener('dragenter', function (evt) {
+    if ((!evt.target.hasChildNodes())
+      && (evt.target.tagName.toLowerCase() !== 'img')) {
+      evt.target.style.backgroundColor = 'yellow';
+    }
+    evt.preventDefault();
+  });
 
-  setupOpen.addEventListener('click', onPopupOpen);
-  setupOpen.addEventListener('keydown', onPopupOpenOnEnter);
-  setupClose.addEventListener('click', onPopupClose);
-  setupClose.addEventListener('keydown', onPopupCloseOnEnter);
-  setupSave.addEventListener('click', onButtonRemoveListeners);
-  setupSave.addEventListener('keydown', onButtonRemoveListeners);
+  artifactsElement.addEventListener('dragleave', function (evt) {
+    evt.target.style.backgroundColor = '';
+    evt.preventDefault();
+  });
 })();

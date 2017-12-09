@@ -1,8 +1,10 @@
 'use strict';
 
 (function () {
-  window.ESC_KEYCODE = 27;
-  window.ENTER_KEYCODE = 13;
+  window.KEYCODE = {
+    ESCAPE: 27,
+    ENTER: 13
+  };
   window.WIZARD_NUMBER = 4;
   window.FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
   window.SECOND_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
