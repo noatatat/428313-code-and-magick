@@ -5,11 +5,11 @@
   var wizardEyes = window.setup.querySelector('.setup-wizard .wizard-eyes');
   var wizardFireBall = window.setup.querySelector('.setup-fireball-wrap');
 
-  function changeFillColor(element, colors) {
-    element.style.fill = window.utils.getRandomElement(colors);
+  function changeFillColor(element, color) {
+    element.style.fill = color;
   }
-  function changeBackgroundColor(element, colors) {
-    element.style.backgroundColor = window.utils.getRandomElement(colors);
+  function changeBackgroundColor(element, color) {
+    element.style.backgroundColor = color;
   }
 
   wizardCoat.addEventListener('click', function () {
