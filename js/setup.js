@@ -13,15 +13,15 @@
   }
 
   wizardCoat.addEventListener('click', function () {
-    changeFillColor(wizardCoat, window.COAT_COLORS);
+    window.colorizeElement(wizardCoat, window.COAT_COLORS, changeFillColor);
   });
 
   wizardEyes.addEventListener('click', function () {
-    changeFillColor(wizardEyes, window.EYES_COLORS);
+    window.colorizeElement(wizardEyes, window.EYES_COLORS, changeFillColor);
   });
 
   wizardFireBall.addEventListener('click', function () {
-    changeBackgroundColor(wizardFireBall, window.FIRE_BALLS_COLORS);
+    window.colorizeElement(wizardFireBall, window.FIRE_BALLS_COLORS, changeBackgroundColor);
   });
 
   var shopElement = document.querySelector('.setup-artifacts-shop');
