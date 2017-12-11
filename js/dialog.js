@@ -34,6 +34,7 @@
   function onPopupOpen() {
     window.utils.show(window.setup);
     setStartCoords();
+    window.utils.show(document.querySelector('.setup-similar'));
     document.addEventListener('keydown', onPopupEscPress);
   }
 
@@ -100,4 +101,14 @@
   setupClose.addEventListener('keydown', onPopupCloseOnEnter);
   setupSave.addEventListener('click', onButtonRemoveListeners);
   setupSave.addEventListener('keydown', onButtonRemoveListeners);
+
+  var form = window.setup.querySelector('.setup-wizard-form');
+  function getDataSend() {
+    window.utils.hide(window.setup);
+  }
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), getDataSend, window.utils.showErrorMessage);
+  });
 })();
