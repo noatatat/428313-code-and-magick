@@ -8,7 +8,9 @@
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
-      xhr.addEventListener('load', window.backend.errorTest);
+      xhr.addEventListener('load', function (evt) {
+        window.backend.errorTest(evt, onLoad, onError);
+      });
 
       xhr.addEventListener('error', function () {
         onError('Произошла ошибка соединения');
@@ -28,7 +30,9 @@
 
       xhr.responseType = 'json';
 
-      xhr.addEventListener('load', window.backend.errorTest);
+      xhr.addEventListener('load', function (evt) {
+        window.backend.errorTest(evt, onLoad, onError);
+      });
 
       xhr.addEventListener('error', function () {
         onError('Произошла ошибка соединения');
@@ -43,11 +47,11 @@
       xhr.open('GET', downloadURL);
       xhr.send();
     },
-    errorTest: function (xhr, onLoad, onError) {
+    errorTest: function (evt, onLoad, onError) {
       var error;
-      switch (xhr.status) {
+      switch (evt.target.status) {
         case 200:
-          onLoad(xhr.response);
+          onLoad(evt.target.response);
           break;
         case 400:
           error = 'Неверный запрос';
@@ -59,7 +63,7 @@
           error = 'Ничего не найдено';
           break;
         default:
-          error = 'Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText;
+          error = 'Неизвестный статус: ' + evt.target.status + ' ' + evt.target.statusText;
       }
       onError(error);
     }
