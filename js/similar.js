@@ -5,13 +5,18 @@
   var similarWizardItem = similarWizardTemlate.content.querySelector('.setup-similar-item');
   var similarList = document.querySelector('.setup-similar-list');
 
-  window.backend.load(renderSimilarWizards, window.utils.showErrorMessage);
+  window.backend.load(onSuccessHandler, window.utils.showErrorMessage);
+  var wizards;
 
-  function renderSimilarWizards(wizards) {
+  function onSuccessHandler(data) {
+    wizards = data;
+    renderSimilarWizards(wizards);
+  }
+
+  function renderSimilarWizards(wizardsToRender) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < 4; i++) {
-      var number = window.utils.getRandomInteger(wizards.length);
-      var wizard = new Wizard(wizards[number].name, wizards[number].colorCoat, wizards[number].colorEyes);
+      var wizard = new Wizard(wizardsToRender[i].name, wizardsToRender[i].colorCoat, wizardsToRender[i].colorEyes);
       fragment.appendChild(renderWizard(wizard));
     }
     similarList.appendChild(fragment);

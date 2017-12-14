@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var wizardCoat = window.setup.querySelector('.setup-wizard .wizard-coat');
+  /*var wizardCoat = window.setup.querySelector('.setup-wizard .wizard-coat');
   var wizardEyes = window.setup.querySelector('.setup-wizard .wizard-eyes');
   var wizardFireBall = window.setup.querySelector('.setup-fireball-wrap');
 
@@ -22,7 +22,7 @@
 
   wizardFireBall.addEventListener('click', function () {
     window.colorizeElement(wizardFireBall, window.FIRE_BALLS_COLORS, changeBackgroundColor);
-  });
+  });*/
 
   var shopElement = document.querySelector('.setup-artifacts-shop');
   var shopItems = shopElement.querySelectorAll('img');
