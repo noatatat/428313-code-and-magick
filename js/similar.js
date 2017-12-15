@@ -7,10 +7,53 @@
 
   window.backend.load(onSuccessHandler, window.utils.showErrorMessage);
   var wizards;
-
   function onSuccessHandler(data) {
     wizards = data;
-    renderSimilarWizards(wizards);
+    window.sortWizards();
+  }
+
+  function getRank(wizard) {
+    var rank = 0;
+    if (wizard.colorCoat === window.usersWizard.coatColor) {
+      rank += 2;
+    }
+    if (wizard.colorEyes === window.usersWizard.eyesColor) {
+      rank += 1;
+    }
+    return rank;
+  }
+
+  function namesComparator(left, right) {
+    if (left > right) {
+      return 1;
+    } else if (left < right) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  window.sortWizards = sortWizards;
+  function sortWizards() {
+    updateWizards(wizards.sort(function (left, right) {
+      var rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = namesComparator(left.name, right.name);
+      }
+      return rankDiff;
+    }));
+  }
+
+  function updateWizards(wizardsDataBase) {
+    removeSimilarWizards();
+    renderSimilarWizards(wizardsDataBase);
+  }
+
+  function removeSimilarWizards() {
+    var oldWizards = similarList.querySelectorAll('.setup-similar-item');
+    [].forEach.call(oldWizards, function (node) {
+      similarList.removeChild(node);
+    });
   }
 
   function renderSimilarWizards(wizardsToRender) {
