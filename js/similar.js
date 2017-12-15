@@ -5,13 +5,61 @@
   var similarWizardItem = similarWizardTemlate.content.querySelector('.setup-similar-item');
   var similarList = document.querySelector('.setup-similar-list');
 
-  window.backend.load(renderSimilarWizards, window.utils.showErrorMessage);
+  window.backend.load(onSuccessHandler, window.utils.showErrorMessage);
+  var wizards;
+  function onSuccessHandler(data) {
+    wizards = data;
+    window.sortWizards();
+  }
 
-  function renderSimilarWizards(wizards) {
+  function getRank(wizard) {
+    var rank = 0;
+    if (wizard.colorCoat === window.usersWizard.coatColor) {
+      rank += 2;
+    }
+    if (wizard.colorEyes === window.usersWizard.eyesColor) {
+      rank += 1;
+    }
+    return rank;
+  }
+
+  function namesComparator(left, right) {
+    if (left > right) {
+      return 1;
+    } else if (left < right) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  window.sortWizards = sortWizards;
+  function sortWizards() {
+    updateWizards(wizards.sort(function (left, right) {
+      var rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = namesComparator(left.name, right.name);
+      }
+      return rankDiff;
+    }));
+  }
+
+  function updateWizards(wizardsDataBase) {
+    removeSimilarWizards();
+    renderSimilarWizards(wizardsDataBase);
+  }
+
+  function removeSimilarWizards() {
+    var oldWizards = similarList.querySelectorAll('.setup-similar-item');
+    [].forEach.call(oldWizards, function (node) {
+      similarList.removeChild(node);
+    });
+  }
+
+  function renderSimilarWizards(wizardsToRender) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < 4; i++) {
-      var number = window.utils.getRandomInteger(wizards.length);
-      var wizard = new Wizard(wizards[number].name, wizards[number].colorCoat, wizards[number].colorEyes);
+      var wizard = new Wizard(wizardsToRender[i].name, wizardsToRender[i].colorCoat, wizardsToRender[i].colorEyes);
       fragment.appendChild(renderWizard(wizard));
     }
     similarList.appendChild(fragment);
